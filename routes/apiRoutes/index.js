@@ -20,6 +20,7 @@ router.post("/notes", function (req, res) {
         let newNote = {...req.body, id:uuidv4()}
         notes.push(newNote)
         fs.writeFile("./db/db.json", JSON.stringify(notes), () => {
+            if (err) throw err;
             res.json(req.body)
         })
     })
@@ -35,16 +36,19 @@ router.delete("/notes/:id", function (req, res) {
         // parse data
         const notes = JSON.parse(data)
         // loop thru data and delete matching note on id
+        const findNoteId = notes.find(i => i.id === parseInt(req.params.id))
+        const IndexNoteId = notes.indexOf(findNoteId)
+        notes.splice(IndexNoteId)
         // resave w/ fs.write file the stringified notes
-        // when write file is done send back notes
+        fs.writeFile("./db/db.json", JSON.stringify(notes), () => {
+            if (err) throw err;
+            // when write file is done send back notes
+            res.json(notes)    
+          }); 
+
 
     // look at .then of delete in js front end
     })
-
-    db
-    .deleteNotes(req.params.id)
-    .then(() => res.json({ ok: true }))
-    .catch(err => res.status(500).json(err))
 });
 
 module.exports = router;
