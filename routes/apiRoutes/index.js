@@ -8,7 +8,7 @@ router.get('/notes', (req, res) => {
         const notes = JSON.parse(data)
         res.json(notes)
     })
-});
+}); 
 
 router.post("/notes", function (req, res) {
     // read first
@@ -20,12 +20,10 @@ router.post("/notes", function (req, res) {
         let newNote = {...req.body, id:uuidv4()}
         notes.push(newNote)
         fs.writeFile("./db/db.json", JSON.stringify(notes), () => {
-            //if (err) throw err;
+            if (err) throw err;
             res.json(req.body)
         })
     })
-
-
 });
 
 
@@ -38,10 +36,12 @@ router.delete("/notes/:id", function (req, res) {
         // loop thru data and delete matching note on id
         const findNoteId = notes.find(i => i.id === req.params.id)
         const IndexNoteId = notes.indexOf(findNoteId)
-        notes.splice(IndexNoteId)
+        notes.splice(IndexNoteId, 1)
+
+
         // resave w/ fs.write file the stringified notes
         fs.writeFile("./db/db.json", JSON.stringify(notes), () => {
-            //if (err) throw err;
+            if (err) throw err;
             // when write file is done send back notes
             res.json(notes)    
           }); 
