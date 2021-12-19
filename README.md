@@ -27,8 +27,6 @@
   6. To view an existing notes, click on note in left panel
   7. To delete notes press on the trash icon next to the note you want to delete
 
-  [Click here to see walk-thru video](website-to-walk-throug-video)
-
   ![landing-page.html](public/assets/images/landingpage.png)
   ![notes-page.html](public/assets/images/notespage.png)
 
